@@ -26,6 +26,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(500)
 		fmt.Println(err)
 	} else {
+		w.Header().Add("Content-type", "application/json")
+		w.WriteHeader(200)
 		w.Write(json)
 	}
 }
