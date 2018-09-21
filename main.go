@@ -11,13 +11,23 @@ import (
 var gen *rand.Rand = rand.New(rand.NewSource(makeTimestamp()))
 
 func handler(w http.ResponseWriter, r *http.Request) {
+	animal := ""
+	if r.URL.Path == "/meow" {
+		animal = "cat"
+	} else if r.URL.Path == "/woof" {
+		animal = "dog"
+	} else {
+		w.WriteHeader(500)
+		w.Write([]byte("Unknown animal!"))
+		return
+	}
 	imgNo := gen.Intn(300)
 
 	var payload = map[string]interface{} {
-		"text" : "Here's a cat for you",
+		"text" : fmt.Sprintf("Here's a %s for you", animal),
 		"attachments" : [] map[string]string {
 			{
-				"image_url": fmt.Sprintf("https://www.catgifpage.com/gifs/%d.gif", imgNo),
+				"image_url": fmt.Sprintf("https://www.%sgifpage.com/gifs/%d.gif", animal, imgNo),
 			},
 		},
 	}
@@ -25,6 +35,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(500)
 		fmt.Println(err)
+		return
 	} else {
 		w.Header().Add("Content-type", "application/json")
 		w.WriteHeader(200)
