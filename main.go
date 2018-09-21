@@ -16,6 +16,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		animal = "cat"
 	} else if r.URL.Path == "/woof" {
 		animal = "dog"
+	} else if r.URL.Path == "/" {
+		w.WriteHeader(200)
+		w.Write([]byte("Meow!"))
+		return
 	} else {
 		w.WriteHeader(500)
 		w.Write([]byte("Unknown animal!"))
