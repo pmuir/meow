@@ -12,10 +12,13 @@ var gen *rand.Rand = rand.New(rand.NewSource(makeTimestamp()))
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	animal := ""
+	imgNo := 1
 	if r.URL.Path == "/meow" {
 		animal = "cat"
+		imgNo = gen.Intn(300)
 	} else if r.URL.Path == "/woof" {
 		animal = "dog"
+		imgNo = gen.Intn(150)
 	} else if r.URL.Path == "/" {
 		w.WriteHeader(200)
 		w.Write([]byte("Meow!"))
@@ -25,7 +28,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Unknown animal!"))
 		return
 	}
-	imgNo := gen.Intn(300)
 
 	var payload = map[string]interface{} {
 		"text" : fmt.Sprintf("Here's a %s for you", animal),
