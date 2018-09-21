@@ -3,8 +3,8 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 image:
-  repository: draft
-  tag: dev
+  repository: 10.71.241.72:5000/pmuir/meow
+  tag: 0.0.7
   pullPolicy: IfNotPresent
 service:
   name: meow
